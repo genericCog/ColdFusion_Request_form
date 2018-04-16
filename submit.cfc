@@ -98,7 +98,7 @@
             <cfqueryparam cfsqltype="cf_sql_varchar" value="#FORM.poc#">,
             <cfqueryparam cfsqltype="cf_sql_bit" value="#FORM.is_funded#">,
             <cfqueryparam cfsqltype="cf_sql_varchar" value="#FORM.request_type#">, 
-            <cfqueryparam cfsqltype="cf_sql_integer" value="#FORM.fk_network_type_id#">,
+            <cfqueryparam cfsqltype="cf_sql_integer" value="#FORM.fk_network_type_id#">, <!--- TODO convert to checkboxes --->
             <cfqueryparam cfsqltype="cf_sql_varchar" value="#FORM.classification#">,
             
             <cfqueryparam cfsqltype="cf_sql_varchar" value="#FORM.itnss_description#">,
@@ -186,40 +186,61 @@
             AND structKeyExists(form,"date_needed")                      AND structKeyExists(form,"created_by")
             AND structKeyExists(form,"request_type")                     AND structKeyExists(form,"classification")
             AND structKeyExists(form,"fk_network_type_id")               AND structKeyExists(form,"is_funded")            
-            AND structKeyExists(form,"is_funded_authority")              AND structKeyExists(form,"itnss_description_help")
+            AND structKeyExists(form,"is_funded_authority")              <!---AND structKeyExists(form,"itnss_description_help")--->
             AND structKeyExists(form,"itnss_description_staff_cacedipi") AND structKeyExists(form,"itnss_description")
-            AND structKeyExists(form,"itnss_justification_help")         AND structKeyExists(form,"itnss_justification_staff_cacedipi")
-            AND structKeyExists(form,"itnss_justification")              AND structKeyExists(form,"itnss_solution_help") 
+            <!---AND structKeyExists(form,"itnss_justification_help")--->         AND structKeyExists(form,"itnss_justification_staff_cacedipi")
+            AND structKeyExists(form,"itnss_justification")              <!---AND structKeyExists(form,"itnss_solution_help")---> 
             AND structKeyExists(form,"itnss_solution_staff_cacedipi")    AND structKeyExists(form,"itnss_solution")
             AND structKeyExists(form,"notes_cso_cto_iao") >           
     
             <cfquery name="update_title" datasource="#APPLICATION.asd#"><!---Update database--->
                 UPDATE itnss_requirement
                 SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.title#" />
-                  , date_needed = <cfqueryparam cfsqltype="cf_sql_date" value="#form.date_needed#" />
-                  , created_by = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.created_by#" />
-                  , request_type = <cfqueryparam cfsqltype="cf_sql_int" value="#form.request_type#" />
-                  , classification = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.classification#" />
-                  , fk_network_type_id = <cfqueryparam cfsqltype="cf_sql_int" value="#form.fk_network_type_id#" />
-                  , is_funded = <cfqueryparam cfsqltype="cf_sql_int" value="#form.is_funded#" />
-                  , is_funded_authority = <cfqueryparam cfsqltype="cf_sql_int" value="#form.is_funded_authority#" />
-                  , itnss_description_help = <cfqueryparam cfsqltype="cf_sql_int" value="#form.itnss_description_help#" />
-                  , itnss_description_staff_cacedipi = <cfqueryparam cfsqltype="cf_sql_int" value="#form.itnss_description_staff_cacedipi#" />
-                  , itnss_description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.itnss_description#" />
-                  , itnss_justification_help = <cfqueryparam cfsqltype="cf_sql_int" value="#form.itnss_justification_help#" />
-                  , itnss_justification_staff_cacedipi = <cfqueryparam cfsqltype="cf_sql_int" value="#form.itnss_justification_staff_cacedipi#" />
-                  , itnss_justification = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.itnss_justification#" />
-                  , itnss_solution_help = <cfqueryparam cfsqltype="cf_sql_int" value="#form.itnss_solution_help#" />
-                  , itnss_solution_staff_cacedipi = <cfqueryparam cfsqltype="cf_sql_int" value="#form.itnss_solution_staff_cacedipi#" />
-                  , itnss_solution = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.itnss_solution#" />
-                  , notes_cso_cto_iao = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.notes_cso_cto_iao#" />
+                    , date_needed = <cfqueryparam cfsqltype="cf_sql_date" value="#form.date_needed#" />
+                    , created_by = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.created_by#" />
+                    , request_type = <cfqueryparam cfsqltype="cf_sql_int" value="#form.request_type#" />
+                    , classification = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.classification#" />
+                    , fk_network_type_id = <cfqueryparam cfsqltype="cf_sql_int" value="#form.fk_network_type_id#" />
+                    , is_funded = <cfqueryparam cfsqltype="cf_sql_int" value="#form.is_funded#" />
+                    , is_funded_authority = <cfqueryparam cfsqltype="cf_sql_int" value="#form.is_funded_authority#" />
+                    <!---, itnss_description_help = <cfqueryparam cfsqltype="cf_sql_int" value="#form.itnss_description_help#" />--->
+                    , itnss_description_staff_cacedipi = <cfqueryparam cfsqltype="cf_sql_int" value="#form.itnss_description_staff_cacedipi#" />
+                    , itnss_description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.itnss_description#" />
+                    <!---, itnss_justification_help = <cfqueryparam cfsqltype="cf_sql_int" value="#form.itnss_justification_help#" />--->
+                    , itnss_justification_staff_cacedipi = <cfqueryparam cfsqltype="cf_sql_int" value="#form.itnss_justification_staff_cacedipi#" />
+                    , itnss_justification = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.itnss_justification#" />
+                    <!---, itnss_solution_help = <cfqueryparam cfsqltype="cf_sql_int" value="#form.itnss_solution_help#" />--->
+                    , itnss_solution_staff_cacedipi = <cfqueryparam cfsqltype="cf_sql_int" value="#form.itnss_solution_staff_cacedipi#" />
+                    , itnss_solution = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.itnss_solution#" />
+                    , notes_cso_cto_iao = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.notes_cso_cto_iao#" />
+                    , acq_purchase_vehicle = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.acq_purchase_vehicle#" />
+                    , acq_gpc_log_cross_reference = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.acq_gpc_log_cross_reference#" />
+                    , acq_funding_source = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.acq_funding_source#" />
+                    , acq_fund_cite = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.acq_fund_cite#" />
+                    , acq_afway_waiver_number = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.acq_afway_waiver_number#" />
+                    , acq_afway_rfq_number = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.acq_afway_rfq_number#" />
+                    , acq_afway_tracking_number = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.acq_afway_tracking_number#" />
+                    , acq_afway_order_number = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.acq_afway_order_number#" />
+                    , acq_vendor_awarded = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.acq_vendor_awarded#" />
+                    , acq_date_ordered = <cfqueryparam cfsqltype="cf_sql_date" value="#form.acq_date_ordered#" />
+                    , acq_comments = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.acq_comments#" />
                 WHERE itnss_requirement_id = <cfqueryparam cfsqltype="cf_sql_int" value="#form.record_id#" />
                 
             </cfquery>
             <cfset oResponse.message="success">
     <cfelse>
-        <cfthrow message="Missing Information: #record_id#, #title#, #date_needed#, #date_needed#, #created_by#, #request_type#, #classification#, #fk_network_type_id#, #is_funded#, #is_funded_authority#, #itnss_description_help#, #itnss_description_staff_cacedipi#, #itnss_description#, #itnss_justification_help#, #itnss_justification_staff_cacedipi#, #itnss_justification#, #itnss_solution_help#, #itnss_solution_staff_cacedipi#, #itnss_solution#, #notes_cso_cto_iao#
-">
+    <cfset message_content = "Missing Information: 
+                         #record_id#, #title#, #date_needed#, #date_needed#, #created_by#, #request_type#, 
+                         #classification#, #fk_network_type_id#, #is_funded#, #is_funded_authority#, 
+                         #itnss_description_staff_cacedipi#, #itnss_description#,<!---#itnss_description_help#, ---> 
+                         #itnss_justification_staff_cacedipi#, #itnss_justification#,<!---#itnss_justification_help#,--->  
+                         #itnss_solution_staff_cacedipi#, #itnss_solution#,<!---#itnss_solution_help#, ---> 
+                         #notes_cso_cto_iao#, #acq_purchase_vehicle#, #acq_gpc_log_cross_reference#,
+                         #acq_funding_source#, #acq_fund_cite#,
+                         #acq_afway_waiver_number#, #acq_afway_rfq_number#,
+                         #acq_afway_tracking_number#, #acq_afway_order_number#,
+                         #acq_vendor_awarded#, #acq_date_ordered#, #acq_comments#">
+        <cfthrow message="#message_content#">
     </cfif>
     <cfcatch>
         <cfset oResponse.error="#cfcatch.Message#">

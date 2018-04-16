@@ -5,105 +5,27 @@
 
 
 <style type="text/css">
-.app_mod_header {
-	margin-top:10px;
-	margin-bottom:5px;
-}
-
-.outProcess_desc {
-	background-color:#D4FEFF;  /*#FFF9CF;*/ /*#F9F8E3;*/
-	padding:5px;
-	margin-bottom:5px;}
-
-.outProcess_status {
-	background-color:#EEE;
-	padding:5px;
-	margin-bottom:5px;
-	border:1px solid #DDD;
-	}
-
-.outProcess_status_bar {
-	background-color:#63E1E4; /*#FFEE5A;*/
-	border:1px solid #168082;/*#EBD200;*/
-	width:20%;
-	padding:5px;
-	text-align:center;
-	font-size:1.25em;
-
-}
-
-.outProcess_status_text {
-	width:80%;
-	padding:5px;
-	text-align:center;
-	font-size:1.25em;
-
-}
-
-
-.outProcess_actions {
-	text-align:right;
-	margin-bottom:25px;}
-
-.action_bar {
-	background-color:#bbb;
-	margin-bottom:25px;
-	padding:5px;
-	text-align:left;}
-
- td {
-	border-top:1px solid #666;}
-		
-#outSteps td {
-	border-top:1px solid #666;
-	padding:5px;}
-	
-.status_box {
-	height:15px;
-	width:15px;
-	background-color:#CCC;
-	border:1px solid #999;
-	float:left;
-	margin-right:7px;
-	margin-top:3px;}
-	
-.status_box_green {
-	height:15px;
-	width:15px;
-	background-color:#5FE85E;
-	border:1px solid #1AAF19;
-	float:left;
-	margin-right:7px;
-	margin-top:3px;}
-
-.status_box_yellow {
-	height:15px;
-	width:15px;
-	background-color:#FFEA33;
-	border:1px solid #A39200;
-	float:left;
-	margin-right:7px;
-	margin-top:3px;}
-	
-#keys {
-	cursor:pointer;}
-	
-#navmenu {
-	list-style:none;
-	margin-right:25px;
-	padding:10px;
-}
-
-#navmenu li {
-	cursor:pointer;
-	padding:10px;}
-	
-#navmenu li:hover {
-	background-color:#C1EBFF;}
-	
+.app_mod_header {margin-top:10px;margin-bottom:5px;}
+.outProcess_desc {background-color:#D4FEFF;/*#FFF9CF;*//*#F9F8E3;*/padding:5px;margin-bottom:5px;}
+.outProcess_status {background-color:#EEE;padding:5px;margin-bottom:5px;border:1px solid #DDD;}
+.outProcess_status_bar {background-color:#63E1E4;/*#FFEE5A;*/border:1px solid #168082;/*#EBD200;*/width:20%;padding:5px;text-align:center;font-size:1.25em;}
+.outProcess_status_text {width:80%;padding:5px;text-align:center;font-size:1.25em;}
+.outProcess_actions {text-align:right;margin-bottom:25px;}
+.action_bar {background-color:#bbb;margin-bottom:25px;padding:5px;text-align:left;}
+td {border-top:1px solid #666;}
+#outSteps td {border-top:1px solid #666;padding:5px;}
+.status_box {height:15px;width:15px;background-color:#CCC;border:1px solid #999;float:left;margin-right:7px;margin-top:3px;}
+.status_box_green {height:15px;width:15px;background-color:#5FE85E;border:1px solid #1AAF19;float:left;margin-right:7px;margin-top:3px;}
+.status_box_yellow {height:15px;width:15px;background-color:#FFEA33;border:1px solid #A39200;float:left;margin-right:7px;margin-top:3px;}
+#keys {cursor:pointer;}
+#navmenu {list-style:none;margin-right:25px;padding:10px;}
+#navmenu li {cursor:pointer;padding:10px;}
+#navmenu li:hover {background-color:#C1EBFF;}
+.modern_button {letter-spacing: 0.1px;color: #F2F5FC;text-align: center;text-decoration: none;background-color: #00308F;transition: background-color 0.5s ease, border 0.5s ease;border: 0px solid #BDCEEF;padding: 5px 8px;}
+.modern_button:hover {background-color: #0049D1;border: 0px solid #D7E3F8;color: #ffffff;cursor: pointer;}
+#div_attachments tbody td{padding:10px;}
+#div_attachments tbody:empty:after{content:"No Files Uploaded";display:block;padding:10px;}
 </style>
-
-
 
 <cftry>
 
@@ -156,6 +78,11 @@
     <cfset created_by_title  = "#get_created_by_cacedipi.title#">
     <cfset created_by_symbol = "#get_created_by_cacedipi.symbol#">
     <cfset created_by_phone  = "#get_created_by_cacedipi.phone_number#">
+
+
+<!---Get Attachments Info--->
+<cfset ATTACHMENTS=createObject("component","attachments")>
+<cfset get_attachments=ATTACHMENTS.query_attachments(url.requestID)>
 
 <!--- Get Description Info --->
 <cfif LEN(get_itnss_requirement.itnss_description_staff_cacedipi) EQ 10>
@@ -270,10 +197,21 @@
                 <div class="outProcess_status_text" style="float:left;">Completion Status (20%)</div>
                 <br style="clear:both;">
             </div>
-            
+            <!---Instead of using a div for the above status bar, could use svg rectangle/path element--->
+<!---
+         	<div>
+            	<svg width="100%" height="[desired height]" viewBox="0 0 100 100" preserveAspectRatio="none meet">
+					<rect x="0" y="0" height="100" width="[percentage completion expressed as integer]" fill="[whatever color you are using]" stroke="[whatever border color you are using]"></rect>
+				</svg>
+                <div style="[styles to position in center of parent]">
+                	Completion Status (<span>20</span>%)
+                </div>
+            </div>
+--->
             <div class="action_bar">
             	<button type="button" class="print_button">Print</button>
-                <button type="button" class="edit_button" value="#URL.requestID#">Edit</button>
+                <button type="button" class="edit_button" value="#URL.requestID#">Edit</button><!---TODO: add value to bottom button as well --->
+
                 
                 <!--- FUTURE ENHANCEMENT:  Cancels Request --->
                 <!---<button type="button" class="cancel_button">Cancel</button>--->
@@ -288,7 +226,7 @@
                 	<tr>
                     	<td align="left" style="border-top:1px solid ##666;">Requirement Title</td>
                         <td style="background-color:##CCC;">
-                            <div style="padding:3px; background-color:##EEE; margin:5px;">#get_itnss_requirement.title#</div>
+                            <div style="padding:3px; background-color:##EEE; margin:5px;">#get_itnss_requirement.title#&nbsp;</div>
                         </td>
                     </tr>
                     <tr>
@@ -327,7 +265,7 @@
                     </tr>
                     <tr>
                     	<td align="left" style="border-top:1px solid ##666;">Phone</td>
-                        <td style="background-color:##CCC;"><div style="padding:3px; background-color:##EEE; margin:5px;">#requestor_phone#</div></td>
+                        <td style="background-color:##CCC;"><div style="padding:3px; background-color:##EEE; margin:5px;">#requestor_phone#&nbsp;</div></td>
                     </tr>
 
 					<tr>
@@ -425,23 +363,23 @@
                     </table>
                 </div>        
 			</div>
-           
-           
+         
             <!--- ATTACHMENTS --->
-            <div style="margin-bottom:50px;">
+            <div style="margin-bottom:50px;" id="div_attachments">
+            	<input id="hidden_itnssid" type="hidden" value="#URL.requestID#"/>
                 <div class="app_mod_header"><h3>ATTACHMENTS</h3></div>
                 
                 <table cellpadding="0" cellspacing="0" style="width:100%; border:1px solid ##EEE;">
-                	<tr style="background-color:##ACD0EF; font-weight:bold; color:##444; ">
-                    	<td style="padding:5px;">NAME</td>
-                        <td style="padding:5px;width:150px;">SIZE</td>
-                        <td style="padding:5px;width:150px;">MODIFIED</td>
-                        <td style="padding:5px;width:150px;">BY</td>
-                    </tr>
-                    
-                    <tr>
-                    	<td colspan="4" style="padding:10px;">No Files Uploaded</td>
-                    </tr>
+                	<thead>
+                        <tr style="background-color:##ACD0EF; font-weight:bold; color:##444; ">
+                            <td style="padding:5px;">NAME</td>
+                            <td style="padding:5px;width:150px;">SIZE</td>
+                            <td style="padding:5px;width:150px;">MODIFIED</td>
+                            <td style="padding:5px;width:150px;">BY</td>
+                        </tr>
+                    </thead>
+                    <!---For CSS :empty:after rule to function (which places the text "No Files Uploaded" into the table if there are no table rows e.g. no uploaded files), it is imperative that NO whitespaces/linebreaks are used within table body--->
+                    <tbody><cfloop query="get_attachments"><tr><td><a href="attachments.cfc?method=download_attachment&attachment_id=#id#">#name#</a></td><td>#size#</td><td>#mod_date#</td><td>#mod_user#</td></tr></cfloop></tbody>
             	</table>
             </div>
             
@@ -739,6 +677,29 @@
 </cfoutput>
 
 <script type="text/javascript">
+function addAttachmentRow(o){
+	if(o.error){
+		alert(o.error+"\n"+o.detail);
+		}else{
+		var newRow=document.createElement("tr");
+		var td_name=document.createElement("td");
+		var anc=document.createElement("a");
+		anc.setAttribute("href","attachments.cfc?method=download_attachment&attachment_id="+o.id);
+		anc.appendChild(document.createTextNode(o.name));
+		td_name.appendChild(anc);
+		var td_size=document.createElement("td");
+		td_size.appendChild(document.createTextNode(o.size));
+		var td_date=document.createElement("td");
+		td_date.appendChild(document.createTextNode(o.on));
+		var td_user=document.createElement("td");
+		td_user.appendChild(document.createTextNode(o.by));
+		newRow.appendChild(td_name);
+		newRow.appendChild(td_size);
+		newRow.appendChild(td_date);
+		newRow.appendChild(td_user);
+		$("#div_attachments tbody").append(newRow);
+		}
+	}
 $(function() {
 	//Get Request ID
 	<cfoutput></cfoutput>
@@ -773,5 +734,42 @@ $(function() {
 	$("#keys").click(function() {
 		//openWindow("steps_keys.cfm","","testme","Keys / Bldg Access");	
 	});
+	document.addEventListener("dragover",function(event){
+		event.preventDefault();
+		});
+	document.addEventListener("drop",function(event){
+		event.preventDefault();
+		});
+	
+	document.getElementById("div_attachments").addEventListener("drop",function(event){
+		event.preventDefault();
+		var aFiles=event.dataTransfer.files;
+		var url="attachments.cfc?method=upload_attachment";
+		for(var i=0;i<aFiles.length;i++){
+			var data=new FormData();
+			data.append("requirement_id",document.getElementById("hidden_itnssid").value);
+			data.append("file",aFiles[i]);
+			data.append("fileName",aFiles[i].name);
+			$.ajax({
+				url:url,
+				method:"POST",
+				async:true,
+				dataFilter:function(r,t){
+					while(r.charAt(0)=="/"){
+						r=r.slice(1);
+						}
+					return r;
+					},
+				dataType:"json",
+				processData:false,
+				contentType:false,
+				data:data,
+				success:function(o,s,xhr){
+					addAttachmentRow(o);
+					}
+				})
+			}
+		});
+		
 });
 </script>

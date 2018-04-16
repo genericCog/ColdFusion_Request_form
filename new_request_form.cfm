@@ -129,7 +129,6 @@
 </style>
 
 
-
 <!--- FORM STYLES --->
 <style>
 
@@ -139,6 +138,10 @@
 
 .form-field-input {
 	display: block;
+}
+
+.ff-input-date {
+	width: 110px !important;
 }
 
 .form-block-1 {
@@ -252,6 +255,7 @@
 	font-weight: normal;
 	font-size: 14px;
 	padding: 15px;
+	padding-right: 5px;
 }
 
 .raa-block-1 {
@@ -276,12 +280,8 @@ textarea {
 }
 
 input[type=text], select {
-	width: 300px;
 	padding: 10px;
-}
-
-input[type=date] {
-	width: 150px;
+	width: 300px;
 }
 
 input[type=date] {
@@ -299,7 +299,6 @@ input[type=submit] {
 
 input[type=submit]:hover {
 	cursor: pointer;
-	border: 2px solid #666;
 }
 
 </style>
@@ -311,7 +310,7 @@ input[type=submit]:hover {
 	<div style="float:left; margin-right:25px;">
     	<ul id="navmenu">
         	<li><a href="new_request.cfm">Generate New ITNSS</a></li>
-            <li>My Submissions</li>
+            <li><a href="list_user_records.cfm">My Submissions</a></li>
             <li><a href="list.cfm">View All Submissions</a></li>
             <li>Advanced Search</li>
         </ul>
@@ -319,12 +318,15 @@ input[type=submit]:hover {
         <br style="clear:both;">
 	</div>
 	
-    <div style="float:left; width:100%; max-width:1300px;  min-width:200px;">
-    	<h2 style="margin:15px 0px;">ITNSS</h2>
-                
+    <div style="float:left; width:100%; max-width:1300px; min-width:200px;">
+    	
+        <div id="ticket_tabs">   
+        <ul>
+        	<li><a href="##itnss_tab">ITNSS/3215/CSRD</a></li>
+        </ul>
+
         <form action="submit.cfc?method=newRequestSubmit" method="post">
-        <fieldset class="main-fieldset">
-         <legend class="main-legend">AFRL/RQ Requirements</legend>
+         
            <div class="form-block-1">
             <label for="title" class="ff-label" />Requirement Title
             <input type="text" id="title" name="title" class="form-field-input" style="width:600px; display:block;" />
@@ -332,7 +334,7 @@ input[type=submit]:hover {
            
            <div class="form-block-1">
             <label for="date_needed" class="ff-label" />Date Needed
-            <input type="date" id="date_needed" name="date_needed" class="form-field-input" />
+            <input type="text" id="date_needed" name="date_needed" class="form-field-input ff-input-date" placeholder="MM/DD/YYYY" />
            </div>
            
            <br style="clear:both;">
@@ -358,7 +360,7 @@ input[type=submit]:hover {
              <input type="text" id="org_office" name="org_office" class="form-field-input" value="#getSubmitterInfo.symbol#" disabled />
            </div>--->
            
-           <div class="form-block-4">
+           <div class="form-block-4"><!---TODO: make full size to display text --->
             <label for="lab_name1" class="ff-label" />Lab Name
              <select name="lab_name1" class="form-field-input">
              	<option value="">Select a Lab</option>
@@ -368,7 +370,7 @@ input[type=submit]:hover {
              </select>
            </div>
            
-           <div class="form-block-4">
+           <!---<div class="form-block-4">
             <label for="lab_name2" class="ff-label" />Lab Name
              <select name="lab_name2" class="form-field-input">
              	<option value="">Select a Lab</option>
@@ -386,7 +388,9 @@ input[type=submit]:hover {
                 <option	value="#lab_id#">#lab_name#</option>
                 </cfloop>
              </select>
-           </div>
+           </div>--->
+           
+           <br style="clear:both;">
            
            <div class="form-block-5">
            <fieldset class="small-fieldset-2">
@@ -397,6 +401,12 @@ input[type=submit]:hover {
            
             <label for="type_request_s" class="ff-label-radio" />Software
             <input type="radio" id="request_type" name="request_type" value="software" />
+            
+            <label for="type_request_s" class="ff-label-radio" />Network
+            <input type="radio" id="request_type" name="request_type" value="network" />
+            
+            <label for="type_request_s" class="ff-label-radio" />Other
+            <input type="radio" id="request_type" name="request_type" value="other" />
              
            </fieldset>     
            </div>
@@ -422,19 +432,28 @@ input[type=submit]:hover {
             <br />
             
             <label for="assoc_network_nipr" class="ff-label-radio" />NIPR
-            <input type="radio" id="fk_network_type_id" name="fk_network_type_id" value="1" />
-            
+            <input type="checkbox" id="fk_network_type_id" name="fk_network_type_id" value="1" />
+            <!---<input type="radio" id="fk_network_type_id" name="fk_network_type_id" value="1" />--->
+         
             <label for="assoc_network_dren" class="ff-label-radio" />DREN
-            <input type="radio" id="fk_network_type_id" name="fk_network_type_id" value="2" />
+            <input type="checkbox" id="fk_network_type_id" name="fk_network_type_id" value="2" />
+            <!---<input type="radio" id="fk_network_type_id" name="fk_network_type_id" value="2" />--->
             
             <label for="assoc_network_sipr" class="ff-label-radio" />SIPR
-            <input type="radio" id="fk_network_type_id" name="fk_network_type_id" value="3" />
+            <input type="checkbox" id="fk_network_type_id" name="fk_network_type_id" value="3" />
+            <!--- <input type="radio" id="fk_network_type_id" name="fk_network_type_id" value="3" />--->
             
             <label for="assoc_network_enc" class="ff-label-radio" />Enclave
-            <input type="radio" id="fk_network_type_id" name="fk_network_type_id" value="4" />
+            <input type="checkbox" id="fk_network_type_id" name="fk_network_type_id" value="4" />
+            <!---<input type="radio" id="fk_network_type_id" name="fk_network_type_id" value="4" />--->
           
+            <label for="assoc_network_st" class="ff-label-radio" />RQ Enclave
+            <input type="checkbox" id="fk_network_type_id" name="fk_network_type_id" value="6" />
+            <!---<input type="radio" id="fk_network_type_id" name="fk_network_type_id" value="6" />--->
+            
             <label for="assoc_network_st" class="ff-label-radio" />Standalone
-            <input type="radio" id="fk_network_type_id" name="fk_network_type_id" value="5" />
+            <input type="checkbox" id="fk_network_type_id" name="fk_network_type_id" value="5" />
+            <!---<input type="radio" id="fk_network_type_id" name="fk_network_type_id" value="5" />--->
             
            </fieldset>
            </div>
@@ -455,7 +474,7 @@ input[type=submit]:hover {
                       
 			<!--- This will need a loop --->
             <div class="raa-block-2">
-            <label for="req_appr_auth" class="raa-label" />Org Approval Authority
+            <label for="req_appr_auth" class="raa-label" />Org Approval Authority<!---TODO: make full size--->
              <select name="req_appr_auth" class="form-field-input">
              	<option value="">Select Org Approver</option>
                 <cfloop query="getOrgApprovers">
@@ -485,9 +504,9 @@ input[type=submit]:hover {
 		   --->
            
            <div class="form-block-6">
-            <label for="staff_mem" class="ff-label" />Requirement assistance provided by 
+            <label for="staff_mem" class="ff-label" />Requirement assistance provided by <!---TODO: make full size--->
              <select id="itnss_description_staff_cacedipi" name="itnss_description_staff_cacedipi">
-				<option value="">Select AFRL/RQOC Staff Member</option>
+				<option value="">Select AFRL/RQOC Personnel</option>
                 <cfloop query="getRQOC">                
                 <option value="#getRQOC.cac_edipi#">#getRQOC.fullname#</option>
                 </cfloop>
@@ -513,7 +532,7 @@ input[type=submit]:hover {
 		   --->
            
            <div class="form-block-6"><!--- This will need a loop --->
-            <label for="staff_mem" class="ff-label" />Justification assistance provided by 
+            <label for="staff_mem" class="ff-label" />Justification assistance provided by <!---TODO: make full size--->
              <select id="itnss_justification_staff_cacedipi" name="itnss_justification_staff_cacedipi">
               	<option value="">Select AFRL/RQOC Personnel</option>
                 <cfloop query="getRQOC">                
@@ -527,7 +546,7 @@ input[type=submit]:hover {
            <!--- The divs below go together --->
            <div class="fb-6-container">
                <div class="form-block-6">
-                <label for="tech_sol" class="ff-label form-field-input" />Technical Solution
+                <label for="tech_sol" class="ff-label form-field-input" />Technical Solution<!---TODO: make full size--->
                 <textarea type="text" rows="6" cols="100" id="itnss_solution" name="itnss_solution"  class="form-field-input" placeholder="Enter Technical Solution for Request"></textarea>
                </div>
                
@@ -549,10 +568,9 @@ input[type=submit]:hover {
                </div>
            </div>
            
-           <input type="submit" value="Submit">
-           <!---  --->
-          
-          </fieldset> 
+          <input type="submit" value="Submit">
+
+          </div>
         </form>
     </div>
     
@@ -567,8 +585,46 @@ input[type=submit]:hover {
 
 
         
-        
-        
+<script type="text/javascript">
+$(function() {
+	//Get Request ID
+	<cfoutput></cfoutput>
+	
+	//Initialize tabs
+	$("#ticket_tabs").tabs();
+	
+	//Date Picker
+	$("#date_needed").datepicker();
+	
+	$(".cancel_button").button({
+		icons: {
+			primary: "ui-icon-cancel"
+		}
+	}).click(function() {
+		alert("ITNSS Request Cancelled");
+	});
+			
+	$(".print_button").button({
+		icons: {
+			primary: "ui-icon-print"
+		}
+	}).click(function() {
+		window.print();
+	});
+	
+	$(".edit_button").button({
+		icons: {
+			primary: "ui-icon-pencil"
+		}
+	}).click(function() {
+		window.location='update_record.cfm?requestID='+this.value;
+	});
+	
+	$("#keys").click(function() {
+		//openWindow("steps_keys.cfm","","testme","Keys / Bldg Access");	
+	});
+});
+</script>        
 	
 
 

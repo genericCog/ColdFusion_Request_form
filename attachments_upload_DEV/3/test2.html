@@ -1,0 +1,247 @@
+<html>
+<head>
+<style>
+*{
+box-sizing:border-box;
+}
+.fadeIn{
+animation-name:fadeIn;
+animation-duration:1s;
+animation-timing-function:ease-in-out;
+animation-iteration-count:1;
+}
+@keyframes fadeIn{
+0%{opacity:0;}
+100%{opacity:1;}
+}
+.col{
+width:20%;
+float:left;
+height:100%;
+border:1px solid #ccc;
+}
+.col div{
+margin:5px;
+padding:5px;
+background-color:#eee;
+border-radius:5px;
+position:relative;
+}
+.details{
+background-color:#fff !important;
+//transform:scaleY(0);
+transform-origin:50% 0 0;
+//transition:transform .1s ease-in-out;
+//overflow:hidden;
+}
+.active{
+//transform:scaleY(1);
+}
+</style>
+</head>
+<body>
+<div id="todo" class="col"></div>
+<div id="inprogress" class="col"></div>
+<div id="blocked" class="col"></div>
+<div id="done" class="col"></div>
+
+<ul id="test"></ul>
+<!--<div id="fade" class="fadeIn">-->
+<div id="fade">
+<p>some text to test whether the div's animation is working</p>
+</div>
+<div id="otherdiv" style="position:absolute;right:0;top:0;width:50%;"></div>
+<button type="button" onClick="testMove()">test</button>
+
+<script>
+Element.prototype.pullChild=function(e){
+	/*var parent=e.parentNode;
+	parent.removeChild(e);
+	this.appendChild(e);*/
+	FadeAndMove({
+		"parent":e.parentNode,
+		"target":e,
+		"destination":this
+		});
+}
+function FadeAndMove(o){
+	this.parent=o.parent;
+	this.target=o.target;
+	this.destination=o.destination;
+	this.offsetHeight=this.target.offsetHeight;
+	this.incrementOut=function(){
+		var currentOpacity=this.target.style.opacity==""?1:parseFloat(this.target.style.opacity);
+		if(currentOpacity>0){
+			this.target.style.opacity=currentOpacity-.05;
+			this.target.style.height=currentOpacity*this.offsetHeight;
+			}else{
+			this.target.style.opacity=0;
+			this.target.style.height=0;
+			clearInterval(this.interval);
+			if(this.parent){
+				this.parent.removeChild(this.target);
+				}
+			this.destination.appendChild(this.target);
+			this.target.style.height=this.offsetHeight;
+			this.interval=setInterval(this.incrementIn,5);
+			}
+		};
+	this.incrementIn=function(){
+		var currentOpacity=this.target.style.opacity==""?0:parseFloat(this.target.style.opacity);
+		if(currentOpacity<1){
+			this.target.style.opacity=currentOpacity+.05;
+			}else{
+			this.target.style.opacity=1;
+			clearInterval(this.interval);
+			}
+		};
+	this.interval=setInterval(this.incrementOut,5);
+}
+
+function testMove(){
+var div=document.getElementById("fade");
+//document.body.removeChild(div);
+//document.getElementById("otherdiv").appendChild(div);
+document.getElementById("otherdiv").pullChild(div);
+}
+
+function Status(o){
+this.id=o.id;
+this.name=o.name;
+this.step=o.step;
+this.color=o.color;
+}
+
+var testArray=[
+{"id":1,"name":"In Progress","step":2,"color":"#00a"},
+{"id":2,"name":"Blocked","step":3,"color":"#a00"},
+{"id":3,"name":"Done","step":4,"color":"#0a0"},
+{"id":4,"name":"To Do","step":1,"color":"#ccc"}
+];
+/*
+testArray.sort(function(a,b){
+return(a.step-b.step);
+});*/
+
+var objArray=[]
+for(var i=0;i<testArray.length;i++){
+objArray.push(new Status(testArray[i]));
+}
+objArray.sort(function(a,b){
+return(a.step-b.step);
+});
+for(var i=0;i<objArray.length;i++){
+var li=document.createElement("li");
+li.setAttribute("style","color:"+objArray[i].color);
+li.appendChild(document.createTextNode(objArray[i].name+", "+objArray[i].id+", "+objArray[i].step));
+document.getElementById("test").appendChild(li);
+}
+
+function Story(o){
+	this.id=o.id;
+	this.name=o.name;
+	this.div=document.createElement("div");
+	this.div.draggable=true;
+	var testInput=document.createElement("input");
+	testInput.draggable=false;
+	this.div.appendChild(testInput);
+	var h=document.createElement("h3");
+	h.appendChild(document.createTextNode(this.name));
+	this.div.appendChild(h);
+	var aStatus=["todo","inprogress","blocked","done"];
+	for(var i=0;i<aStatus.length;i++){
+		var b=document.createElement("button");
+		b.setAttribute("type","button");
+		b.story=this;
+		b.destination=aStatus[i];
+		b.addEventListener("click",function(){
+			this.story.moveTo(this.destination);
+			});
+		b.appendChild(document.createTextNode(aStatus[i]));
+		this.div.appendChild(b);
+		}
+	this.moveTo=function(d){
+		document.getElementById(d).pullChild(this.div);
+		}
+	this.details=document.createElement("div");
+	this.details.innerHTML="Testing having text in the details section, to stand in for actual content."
+	this.details.classList.add("details");
+	var b=document.createElement("button");
+	b.setAttribute("type","button");
+	b.story=this;
+	b.appendChild(document.createTextNode("Details"));
+	b.addEventListener("click",function(){
+		this.story.toggleDetails();
+		});
+	this.div.appendChild(b);
+	this.div.appendChild(this.details);
+	this.toggleDetails=function(){
+		if(this.details.classList.contains("active")){
+			this.details.classList.remove("active");
+			contractDetails(this)
+			}else{
+			this.details.classList.add("active");
+			expandDetails(this);
+			}
+		};
+	this.appendTo=function(e){
+		e.appendChild(this.div);
+		this.div.style.height=this.div.offsetHeight-this.details.offsetHeight;
+		this.details.style.transform="scaleY(0)";
+		};
+	this.animationInterval=null;
+}
+function expandDetails(o){
+	this.div=o.div;
+	this.startHeight=this.div.offsetHeight;
+	this.details=o.details;
+	this.modFactor=0;
+	this.modStep=10;
+	this.increment=function(){
+		if(this.modFactor<this.modStep){
+			this.div.style.height=this.startHeight+((this.modFactor/this.modStep)*this.details.offsetHeight);
+			this.details.style.transform="scaleY("+(this.modFactor/this.modStep)+")";
+			this.modFactor++;
+			}else{
+			clearInterval(this.interval);
+			this.div.style.height=this.startHeight+this.details.offsetheight;
+			this.details.style.transform="scaleY(1)";
+			}
+		}
+	this.interval=setInterval(this.increment,1);
+}
+
+function contractDetails(o){
+	this.div=o.div;
+	this.startHeight=this.div.offsetHeight;
+	this.details=o.details;
+	this.modFactor=0;
+	this.modStep=10;
+	this.increment=function(){
+		if(this.modFactor<this.modStep){
+			this.div.style.height=this.startHeight-((this.modFactor/this.modStep)*this.details.offsetHeight);
+			this.details.style.transform="scaleY("+(1-(this.modFactor/this.modStep))+")";
+			this.modFactor++;
+			}else{
+			clearInterval(this.interval);
+			this.div.style.height=this.startHeight-this.details.offsetheight;
+			this.details.style.transform="scaleY(0)";
+			}
+		}
+	this.interval=setInterval(this.increment,1);
+}
+
+
+var testStories=[
+	new Story({"id":1,"name":"Test JS Story Object"}),
+	new Story({"id":2,"name":"Another Test"}),
+	new Story({"id":3,"name":"Tertiary Test"}),
+	new Story({"id":4,"name":"Too Many Tests"})
+	];
+for(var i=0;i<testStories.length;i++){
+	testStories[i].appendTo(document.getElementById("todo"));
+	}
+
+</script>
+</body>
+</html>
