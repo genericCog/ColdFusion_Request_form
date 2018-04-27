@@ -1,0 +1,285 @@
+/* IDs */
+#keys { 
+cursor: pointer;
+	}
+	
+#navmenu {
+	list-style: none;
+	margin-right: 25px;
+	padding: 10px;
+}
+	
+#navmenu li {
+	cursor: pointer;
+	padding: 10px;
+}
+	
+#navmenu li:hover {
+	background-color:#C1EBFF;
+}
+
+
+/* Classes */
+.clear-float {
+	clear: both;
+}
+
+.form-field-input {
+	display: block;
+}
+	
+.ff-input-date {
+	width: 110px !important;
+}
+
+.ff-input-acq {
+	display: block;
+	width: 95% !important;
+}
+
+.acq-container {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	min-height: 150px;
+	clear :both;
+	margin: 2px 2px;
+	padding: 2px 2px;
+}
+	
+.form-block-1 {
+	display: inline-block;
+}
+	
+.form-block-2 {
+	display: inline-block;
+}
+	
+.form-block-4 {
+	display: inline-block;
+	width: 30%;
+}
+	
+.form-block-5 {
+	width: 50%;
+	float: left;
+	padding: 10px 20px 10px 0px;
+	text-align: center;
+}
+	
+.form-block-8 {
+	width: 50%;
+	float: left;
+	padding: 10px 0px 10px 20px;
+	text-align: center;
+}
+	
+.form-block-9 {
+	float: left;
+	-align: center;
+	width: 50%;
+	padding: 10px 20px 10px 0px;
+}
+	
+.form-block-10 {
+	text-align: center;
+	width: 50%;
+	float: left;
+	padding:10px 0px 10px 20px;
+}
+
+.form-block-acq {
+    float: left;
+    width: 45%;
+    margin-right: 0px;
+    margin-left: 4%;
+}
+
+.form-block-acq-comments {
+	display: inline-block;
+	padding: 10px;
+	margin-left: 4%;
+	width: 95%;
+}
+
+.form-block-acq-comments textarea {
+	width: 96.5% !important;
+}
+	
+.fb-6-container {
+	border: 4px solid #ccc;
+	background-color: #eee;
+	padding: 20px;
+	margin: 10px;
+	padding: 10px;
+}
+	
+.form-field,
+.form-block-1,
+.form-block-2,
+.form-block-3,
+.form-block-4,
+.form-block-acq {
+	padding: 10px;
+}
+	
+.small-fieldset-2 {
+	padding: 10px;
+	margin: 10px;
+	height: 100px;
+	background-color: #F3F3F3;
+	border: 4px solid #ccc;
+}
+	
+.small-fieldset-fb9 {
+	padding: 10px;
+	margin: 10px;
+	height: 129px;
+	background-color: #F3F3F3;
+	border: 4px solid #ccc;
+}
+	
+.small-fieldset {
+	padding: 10px;
+	margin: 10px;
+	background-color: #F3F3F3;
+	border: 4px solid #ccc;
+}
+	
+.small-legend {
+	padding: 0px -5px 0px 0px;
+	text-align: left;
+	font-weight: bold;
+	font-size: 14px;
+	padding: 10px;
+}
+	
+.ff-label {
+	display: block;
+	padding: 5px;
+}
+
+.ff-required {
+	color:#F00;	
+}
+
+.ff-inputDesc {
+	color:#666;
+	font-size:0.8em; 
+	font-weight:normal; 
+	font-style:italic; 	
+}
+	
+.ff-label-radio {
+	font-weight: normal;
+	font-size: 14px;
+	padding: 10px;
+	padding-right: 5px;
+}
+	
+.raa-block-1 {
+	padding-top: 17px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+	margin-right: 0px;
+}
+
+	
+.raa-block-2 {
+	float: left;
+}
+	
+.raa-label {
+	display: block;
+}
+
+/*	
+textarea {
+	min-height: 300px;
+	min-width: 600px;
+	padding: 10px;
+	width: 100%;
+}
+*/
+	
+input[type=text], select {
+	padding: 10px;
+	min-width: 150px;
+}
+
+.org-select {
+	width: 300px;
+}
+	
+input[type=date] {
+	font-size: 14px;
+	padding: 8px;
+}
+	
+input[type=submit] {
+	float: right;
+	font-size: 18px;
+	font-weight: bold;
+	margin: 10px;
+	padding: 10px 50px;
+}
+	
+input[type=submit]:hover {
+	cursor:pointer;
+}
+
+.modern_button {
+	min-height:35px;
+	min-width:100px;
+	color:#F2F5FC;
+	text-align:center;
+	padding-top:5px;
+	text-decoration:none;
+	background-color:#00308F;
+	transition:background-color 0.5s ease, border 0.5s ease;border:0px solid #BDCEEF;
+}
+
+.modern_button:hover {
+	background-color: #0049D1;
+	border: 0px solid #D7E3F8;
+	color: #fff;
+	cursor: pointer;
+}
+
+.small_btn {
+	min-width: 50px;
+	padding: 4px 4px;
+}
+[data-itnss="btn_action"]{display:flex;justify-content:flex-end;}
+.save-button{background-color:#bbb;min-height:45px;margin:10px 10px 10px 10px;display:flex;justify-content:flex-end;}
+.save-button div{width:150px;margin:5px 5px;}
+
+
+.wrapper-all {
+	margin: 25px 0px;
+	min-height: 50px;
+	padding: 2px 2px;
+}
+
+.wrapper-nav {
+	float: left;
+	margin-right: 25px; 
+	width: 15%;
+}
+
+.ticket-tabs {
+	float: left; 
+	max-width: 1350px;
+	width: 80%; 
+	min-height: 700px;
+}
+
+.req-input {
+	width: 600px; 
+}
+
+
+.ticket-tabs {
+	width: 80%;
+}

@@ -1,0 +1,29 @@
+@charset "utf-8";
+/* Convert inline styles to CSS */
+
+
+
+/* From update_record_main.cfm */
+
+.wrapper-all {
+	margin: 25px 0px;
+	min-height: 50px;
+	padding: 2px 2px;
+}
+
+.wrapper-nav {
+	float: left;
+	margin-right: 25px; 
+	width: 15%;
+}
+
+.ticket-tabs {
+	float: left; 
+	max-width: 1350px;
+	width: 80%; 
+	min-height: 700px;
+}
+
+.req-input {
+	width: 600px; 
+}
